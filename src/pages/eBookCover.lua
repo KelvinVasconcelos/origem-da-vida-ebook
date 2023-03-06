@@ -9,6 +9,7 @@ local function onNextPage( self, event )
 		
 		return true
 	end
+  
 end
 
 function scene:create( event )
@@ -26,7 +27,7 @@ function scene:create( event )
   earth.y = display.contentWidth * 0.3
   sceneGroup:insert(earth)
 
-  local title = display.newImageRect('src/assets/texts/title.png', display.contentWidth * 0.6, display.contentWidth * 0.12)
+  local title = display.newImageRect('src/assets/texts/title.png', display.contentWidth * 0.6, display.contentWidth * 0.13)
   title.x = display.contentWidth * 0.35
   title.y = display.contentWidth * 0.85
   sceneGroup:insert(title)
@@ -49,6 +50,7 @@ function scene:show( event )
       
   forwardButton.touch = onNextPage
   forwardButton:addEventListener( "touch", forwardButton )
+
   end
 end
 
@@ -69,5 +71,6 @@ end
 
 scene:addEventListener( "create", scene )
 scene:addEventListener( "show", scene )
+scene:addEventListener( "hide", scene )
 
 return scene
