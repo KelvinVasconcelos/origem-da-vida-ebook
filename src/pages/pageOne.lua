@@ -3,6 +3,8 @@ local scene = composer.newScene()
 
 local backButton
 local forwardButton
+local rockImage
+local horseAnimationImage
 
 local function onBackPage( self, event )
 	if event.phase == "ended" or event.phase == "cancelled" then
@@ -20,8 +22,33 @@ local function onNextPage( self, event )
 	end
 end
 
+local function onTapImage( event )
+  transition.to(rockImage, {alpha = 0, timer = 1500})
+  transition.to(horseAnimationImage, {alpha = 1, timer = 3000})
+  horseAnimationImage:play()
+end
+
+
 function scene:create( event )
 	local sceneGroup = self.view
+
+  rockImage = display.newImageRect('src/assets/animations/rock-page-one.png', display.contentWidth * 0.3, display.contentWidth * 0.3)
+  rockImage.x = display.contentWidth * 0.5
+  rockImage.y = display.contentHeight * 0.2
+  sceneGroup:insert(rockImage)
+  rockImage:addEventListener("tap", onTapImage)
+
+  horseAnimationImage = graphics.newImageSheet('src/assets/animations/horse-page-one.png', 
+  {
+    width = 500,
+    height = 271,
+    numFrames = 12
+  })
+  horseAnimationImage = display.newSprite( horseAnimationImage, { name = "run", start = 1, count = 12, time = 1000, loopCount = 0 } )
+  horseAnimationImage.x = display.contentWidth * 0.5
+  horseAnimationImage.y = display.contentHeight * 0.2
+  horseAnimationImage.alpha = 0
+  sceneGroup:insert(horseAnimationImage)
 
   local cluePage = display.newImageRect('src/assets/texts/clue-page-one.png', display.contentWidth * 0.8, display.contentWidth * 0.045)
   cluePage.x = display.contentWidth * 0.5
@@ -72,6 +99,7 @@ function scene:hide( event )
      
   backButton:removeEventListener( "touch", backButton )
   forwardButton:removeEventListener( "touch", forwardButton )
+  rockImage:removeEventListener( "tap", rockImage)
 
   elseif ( phase == "did" ) then
 
