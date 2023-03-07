@@ -44,7 +44,7 @@ function scene:create( event )
     height = 271,
     numFrames = 12
   })
-  horseAnimationImage = display.newSprite( horseAnimationImage, { name = "run", start = 1, count = 12, time = 1000, loopCount = 0 } )
+  horseAnimationImage = display.newSprite( horseAnimationImage, { name = "run", start = 1, count = 12, time = 1100, loopCount = 0 } )
   horseAnimationImage.x = display.contentWidth * 0.5
   horseAnimationImage.y = display.contentHeight * 0.2
   horseAnimationImage.alpha = 0
