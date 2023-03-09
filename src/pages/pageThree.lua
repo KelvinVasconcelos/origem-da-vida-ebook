@@ -5,7 +5,6 @@ local scene = composer.newScene()
 local backButton
 local forwardButton
 local fireAnimationImage
-local glassImage
 
 local function onBackPage( self, event )
 	if event.phase == "ended" or event.phase == "cancelled" then
@@ -45,7 +44,7 @@ end
 function scene:create( event )
 	local sceneGroup = self.view
 
-  glassImage = display.newImageRect('src/assets/animations/glass-page-three.png', display.contentWidth * 0.4, display.contentWidth * 0.35)
+  local glassImage = display.newImageRect('src/assets/animations/glass-page-three.png', display.contentWidth * 0.4, display.contentWidth * 0.35)
   glassImage.x = display.contentWidth * 0.5
   glassImage.y = display.contentHeight * 0.22
   sceneGroup:insert(glassImage)
