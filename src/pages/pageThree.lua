@@ -1,8 +1,11 @@
 local composer = require( "composer" )
+local physics = require( "physics" )
 local scene = composer.newScene()
 
 local backButton
 local forwardButton
+local fireAnimationImage
+local glassImage
 
 local function onBackPage( self, event )
 	if event.phase == "ended" or event.phase == "cancelled" then
@@ -20,8 +23,47 @@ local function onNextPage( self, event )
 	end
 end
 
+local function onMoveImage(event)
+  local target = event.target
+  if event.phase == "began" then
+    display.getCurrentStage():setFocus(target)
+    target.isFocus = true
+    target.markX = target.x
+    target.markY = target.y
+  elseif event.phase == "moved" then
+    if target.isFocus then
+      local x = (event.x - event.xStart) + target.markX
+      local y = (event.y - event.yStart) + target.markY
+      target.x, target.y = x, y
+    end
+  elseif event.phase == "ended" or event.phase == "cancelled" then
+    display.getCurrentStage():setFocus(nil)
+    target.isFocus = false
+  end
+end
+
 function scene:create( event )
 	local sceneGroup = self.view
+
+  glassImage = display.newImageRect('src/assets/animations/glass-page-three.png', display.contentWidth * 0.4, display.contentWidth * 0.35)
+  glassImage.x = display.contentWidth * 0.5
+  glassImage.y = display.contentHeight * 0.22
+  sceneGroup:insert(glassImage)
+
+  fireAnimationImage = graphics.newImageSheet('src/assets/animations/fire-page-three-four.png', 
+  {
+    width = 498,
+    height = 498,
+    numFrames = 35
+  })
+  fireAnimationImage = display.newSprite( fireAnimationImage, { name = "run", start = 1, count = 35, time = 2000, loopCount = 0 } )
+  fireAnimationImage.x = display.contentWidth * 0.8
+  fireAnimationImage.y = display.contentHeight * 0.1
+  fireAnimationImage:scale(0.4, 0.4)
+  fireAnimationImage:play()
+  sceneGroup:insert(fireAnimationImage)
+  physics.addBody(fireAnimationImage, "dynamic", {isSensor = true})
+  fireAnimationImage:addEventListener("touch", onMoveImage)
 
   local cluePage = display.newImageRect('src/assets/texts/clue-page-three.png', display.contentWidth * 0.8, display.contentWidth * 0.045)
   cluePage.x = display.contentWidth * 0.5
