@@ -96,8 +96,8 @@ function scene:create( event )
     time = 4000, 
     loopCount = 0 
   })
-  meteorAnimationImage.x = display.contentWidth * -0.1
-  meteorAnimationImage.y = display.contentHeight * -0.1
+  meteorAnimationImage.x = display.contentWidth * -0.2
+  meteorAnimationImage.y = display.contentHeight * -0.2
   meteorAnimationImage:rotate( 20 )
   meteorAnimationImage:scale(4, 4)
   sceneGroup:insert( meteorAnimationImage )
