@@ -3,6 +3,8 @@ local scene = composer.newScene()
 
 local backButton
 local forwardButton
+local ellipseImage
+local bigBangAnimationImage
 
 local function onBackPage( self, event )
 	if event.phase == "ended" or event.phase == "cancelled" then
@@ -20,8 +22,32 @@ local function onNextPage( self, event )
 	end
 end
 
+local function onTapImage( event )
+  transition.to(ellipseImage, {alpha = 0, timer = 1500})
+  transition.to(bigBangAnimationImage, {alpha = 1, timer = 3000})
+  bigBangAnimationImage:play()
+end
+
 function scene:create( event )
 	local sceneGroup = self.view
+
+  ellipseImage = display.newImageRect('src/assets/animations/ellipse-page-seven.png', display.contentWidth * 0.05, display.contentWidth * 0.05)
+  ellipseImage.x = display.contentWidth * 0.5
+  ellipseImage.y = display.contentHeight * 0.2
+  sceneGroup:insert(ellipseImage)
+  ellipseImage:addEventListener("tap", onTapImage)
+
+  bigBangAnimationImage = graphics.newImageSheet('src/assets/animations/big-bang-page-seven.png', 
+  {
+    width = 640,
+    height = 360,
+    numFrames = 36
+  })
+  bigBangAnimationImage = display.newSprite( bigBangAnimationImage, { name = "run", start = 1, count = 36, time = 3000, loopCount = 1 } )
+  bigBangAnimationImage.x = display.contentWidth * 0.5
+  bigBangAnimationImage.y = display.contentHeight * 0.2
+  bigBangAnimationImage.alpha = 0
+  sceneGroup:insert(bigBangAnimationImage)
 
   local cluePage = display.newImageRect('src/assets/texts/clue-page-seven.png', display.contentWidth * 0.8, display.contentWidth * 0.045)
   cluePage.x = display.contentWidth * 0.5
