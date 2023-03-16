@@ -3,6 +3,8 @@ local scene = composer.newScene()
 
 local backButton
 local forwardButton
+local dedoImage
+local earthAnimationImage
 
 local function onBackPage( self, event )
 	if event.phase == "ended" or event.phase == "cancelled" then
@@ -20,8 +22,30 @@ local function onNextPage( self, event )
 	end
 end
 
+local function onAccelerate( event )
+  if event.isShake then
+    earthAnimationImage.alpha = 1
+    earthAnimationImage:play()
+  end
+end
+
+Runtime:addEventListener("accelerometer", onAccelerate )
+
 function scene:create( event )
 	local sceneGroup = self.view
+
+  earthAnimationImage = graphics.newImageSheet('src/assets/animations/earth-page-eight.png', 
+  {
+    width = 256,
+    height = 163,
+    numFrames = 74
+  })
+  earthAnimationImage = display.newSprite( earthAnimationImage, { name = "run", start = 1, count = 74, time = 3000, loopCount = 0 } )
+  earthAnimationImage.x = display.contentWidth * 0.5
+  earthAnimationImage.y = display.contentHeight * 0.2
+  earthAnimationImage:scale(2,2)
+  earthAnimationImage.alpha = 0
+  sceneGroup:insert(earthAnimationImage)
 
   local cluePage = display.newImageRect('src/assets/texts/clue-page-eight.png', display.contentWidth * 0.8, display.contentWidth * 0.045)
   cluePage.x = display.contentWidth * 0.5
